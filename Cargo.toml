@@ -1,0 +1,15 @@
+[package]
+name = "example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+opensearch = { version = "2.0.0", features = ["aws-auth"] }
+aws-sigv4 = "0.52.0"
+aws-types = "0.52.0"
+aws-config = "0.52.0"
+url = "2.3.1"
+futures = "0.3"
+tokio = { version = "*", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
