@@ -37,15 +37,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         info["version"]["number"].as_str().unwrap()
     );
 
-    client
-        .indices()
-        .create(opensearch::indices::IndicesCreateParts::Index("test-index"));
+    let index_name = "movies";
 
     client
-        .index(opensearch::IndexParts::IndexId("test-index", "1"))
+        .indices()
+        .create(opensearch::indices::IndicesCreateParts::Index(index_name));
+
+    client
+        .index(opensearch::IndexParts::IndexId(index_name, "1"))
         .body(serde_json::json!({
                 "id": 1,
-                "first_name": "Bruce"
+                "title": "Moneyball",
+                "director": "Bennett Miller",
+                "year": 2011
             }
         ))
         .send()
@@ -54,11 +58,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     thread::sleep(time::Duration::from_secs(3));
 
     let response = client
-        .search(opensearch::SearchParts::Index(&["test-index"]))
+        .search(opensearch::SearchParts::Index(&[index_name]))
         .body(serde_json::json!({
                 "query": {
                     "match": {
-                        "first_name": "bruce"
+                        "director": "miller"
                     }
                 }
             }
@@ -74,7 +78,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client
         .indices()
         .delete(opensearch::indices::IndicesDeleteParts::Index(&[
-            "test-index",
+            index_name,
         ]));
 
     Ok(())

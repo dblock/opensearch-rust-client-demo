@@ -31,8 +31,8 @@ cargo run
 This will output the version of OpenSearch and a search result.
 
 ```
-opensearch: 1.2.4
-Object {"first_name": String("Bruce"), "id": Number(1)}
+opensearch: 2.3.0
+Object {"director": String("Bennett Miller"), "id": Number(1), "title": String("Moneyball"), "year": Number(2011)}
 ```
 
 The [code](src/main.rs) will create an index, add a document, then cleanup.
