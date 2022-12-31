@@ -41,7 +41,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     client
         .indices()
-        .create(opensearch::indices::IndicesCreateParts::Index(index_name));
+        .create(opensearch::indices::IndicesCreateParts::Index(index_name))
+        .send()
+        .await?;
 
     client
         .index(opensearch::IndexParts::IndexId(index_name, "1"))
@@ -55,7 +57,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .send()
         .await?;
 
-    thread::sleep(time::Duration::from_secs(3));
+    thread::sleep(time::Duration::from_secs(1));
 
     let response = client
         .search(opensearch::SearchParts::Index(&[index_name]))
@@ -79,7 +81,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .indices()
         .delete(opensearch::indices::IndicesDeleteParts::Index(&[
             index_name,
-        ]));
+        ]))
+        .send()
+        .await?;
 
     Ok(())
 }
