@@ -22,7 +22,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     use url::Url;
 
-    let url = Url::parse(&env::var("OPENSEARCH_ENDPOINT").expect("Missing OPENSEARCH_ENDPOINT"));
+    let url = Url::parse(&env::var("ENDPOINT").expect("Missing ENDPOINT"));
     let conn_pool = SingleNodeConnectionPool::new(url?);
     let aws_config = aws_config::load_from_env().await.clone();
     let transport = TransportBuilder::new(conn_pool)
